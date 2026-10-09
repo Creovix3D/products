@@ -1,0 +1,236 @@
+const fs = require("node:fs/promises");
+const http = require("node:http");
+const path = require("node:path");
+
+const root = __dirname;
+const imageDirectory = path.join(root, "IMG");
+const optimizedImageDirectory = path.join(imageDirectory, "optimized");
+const catalogPath = path.join(root, "catalog.json");
+const port = Number(process.env.PORT || 3000);
+const host = process.env.HOST || "127.0.0.1";
+const supportedImageExtensions = new Set([
+  ".avif",
+  ".gif",
+  ".jpeg",
+  ".jpg",
+  ".png",
+  ".webp",
+]);
+const allowedCategories = new Set(["Figurines", "Keychains", "Desk & more"]);
+const contentTypes = new Map([
+  [".avif", "image/avif"],
+  [".css", "text/css; charset=utf-8"],
+  [".gif", "image/gif"],
+  [".html", "text/html; charset=utf-8"],
+  [".ico", "image/x-icon"],
+  [".jpeg", "image/jpeg"],
+  [".jpg", "image/jpeg"],
+  [".js", "text/javascript; charset=utf-8"],
+  [".json", "application/json; charset=utf-8"],
+  [".png", "image/png"],
+  [".svg", "image/svg+xml"],
+  [".webp", "image/webp"],
+]);
+
+function send(response, status, body, contentType = "text/plain; charset=utf-8") {
+  response.writeHead(status, {
+    "Content-Type": contentType,
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+  });
+  response.end(body);
+}
+
+function validateCatalog(catalog) {
+  if (!Array.isArray(catalog)) {
+    throw new Error("catalog.json must contain an array of product records.");
+  }
+
+  const images = new Set();
+  for (const [index, product] of catalog.entries()) {
+    const validImage =
+      product &&
+      typeof product.image === "string" &&
+      path.basename(product.image) === product.image &&
+      supportedImageExtensions.has(path.extname(product.image).toLowerCase());
+    if (!validImage) {
+      throw new Error(`catalog.json product ${index + 1} has an invalid image filename.`);
+    }
+    if (images.has(product.image)) {
+      throw new Error(`catalog.json contains a duplicate image: ${product.image}`);
+    }
+    if (typeof product.name !== "string" || !product.name.trim()) {
+      throw new Error(`catalog.json product "${product.image}" needs a name.`);
+    }
+    if (!allowedCategories.has(product.category)) {
+      throw new Error(
+        `catalog.json product "${product.image}" has an unsupported category.`,
+      );
+    }
+    if (
+      product.price !== null &&
+      (typeof product.price !== "number" ||
+        !Number.isFinite(product.price) ||
+        product.price < 0)
+    ) {
+      throw new Error(
+        `catalog.json product "${product.image}" needs a non-negative numeric price or null.`,
+      );
+    }
+    if (product.customizable !== undefined && typeof product.customizable !== "boolean") {
+      throw new Error(`catalog.json product "${product.image}" customizable must be true or false.`);
+    }
+    if (
+      product.approxSizeInches !== undefined &&
+      (typeof product.approxSizeInches !== "string" ||
+        !/^\d+(?:\.\d+)?\s*[×x]\s*\d+(?:\.\d+)?\s*[×x]\s*\d+(?:\.\d+)?$/.test(
+          product.approxSizeInches,
+        ))
+    ) {
+      throw new Error(
+        `catalog.json product "${product.image}" approxSizeInches must be three dimensions in inches.`,
+      );
+    }
+    images.add(product.image);
+  }
+  return new Map(catalog.map((product) => [product.image, product]));
+}
+
+async function getProducts() {
+  const [directoryEntries, catalogText, optimizedEntries] = await Promise.all([
+    fs.readdir(imageDirectory, { withFileTypes: true }),
+    fs.readFile(catalogPath, "utf8"),
+    fs.readdir(optimizedImageDirectory, { withFileTypes: true }),
+  ]);
+  const catalog = validateCatalog(JSON.parse(catalogText));
+  const imageNames = directoryEntries
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        supportedImageExtensions.has(path.extname(entry.name).toLowerCase()),
+    )
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+  const availableImages = new Set(imageNames);
+  const missingCatalogImages = Array.from(catalog.keys()).filter(
+    (image) => !availableImages.has(image),
+  );
+  if (missingCatalogImages.length > 0) {
+    throw new Error(
+      `catalog.json references image files missing from IMG: ${missingCatalogImages.join(", ")}`,
+    );
+  }
+
+  const configuredImages = new Set(catalog.keys());
+  const optimizedImages = new Set(
+    optimizedEntries.filter((entry) => entry.isFile()).map((entry) => entry.name),
+  );
+  const configuredProducts = Array.from(catalog.values());
+  const discoveredProducts = imageNames
+    .filter((image) => !configuredImages.has(image))
+    .map((image) => {
+      const filename = path.parse(image).name;
+      const name = filename.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+      return {
+        image,
+        name: name || filename,
+        category: "Desk & more",
+        price: null,
+        customizable: false,
+        autoGenerated: true,
+        approxSizeInches: "2 × 2 × 1",
+      };
+    });
+
+  return [...configuredProducts, ...discoveredProducts].map((product) => {
+    const optimizedFilename = `${product.image}.jpg`;
+    if (!optimizedImages.has(optimizedFilename)) return product;
+    return {
+      ...product,
+      optimizedImage: `/IMG/optimized/${encodeURIComponent(optimizedFilename)}`,
+    };
+  });
+}
+
+async function serveStatic(request, response, pathname) {
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(pathname);
+  } catch {
+    send(response, 400, "Invalid URL path.");
+    return;
+  }
+
+  const relativePath = decodedPath === "/" ? "index.html" : decodedPath.slice(1);
+  const filePath = path.resolve(root, relativePath);
+  if (filePath !== root && !filePath.startsWith(`${root}${path.sep}`)) {
+    send(response, 403, "Forbidden.");
+    return;
+  }
+
+  try {
+    const file = await fs.readFile(filePath);
+    const contentType =
+      contentTypes.get(path.extname(filePath).toLowerCase()) ||
+      "application/octet-stream";
+    response.writeHead(200, {
+      "Content-Type": contentType,
+      "Cache-Control":
+        contentType.startsWith("image/")
+          ? decodedPath.startsWith("/IMG/optimized/")
+            ? "public, max-age=604800"
+            : "public, max-age=86400"
+          : "no-cache",
+      "X-Content-Type-Options": "nosniff",
+    });
+    response.end(request.method === "HEAD" ? undefined : file);
+  } catch (error) {
+    if (error.code === "ENOENT" || error.code === "EISDIR") {
+      send(response, 404, "Not found.");
+      return;
+    }
+    throw error;
+  }
+}
+
+const server = http.createServer(async (request, response) => {
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    response.setHeader("Allow", "GET, HEAD");
+    send(response, 405, "Method not allowed.");
+    return;
+  }
+
+  let pathname;
+  try {
+    pathname = new URL(request.url, `http://${request.headers.host || host}`).pathname;
+  } catch {
+    send(response, 400, "Invalid request URL.");
+    return;
+  }
+
+  try {
+    if (pathname === "/api/products") {
+      const products = await getProducts();
+      send(
+        response,
+        200,
+        JSON.stringify(products),
+        "application/json; charset=utf-8",
+      );
+      return;
+    }
+    await serveStatic(request, response, pathname);
+  } catch (error) {
+    console.error("Request failed:", error);
+    if (!response.headersSent) {
+      send(response, 500, "Unable to load products or website files.");
+    } else {
+      response.destroy(error);
+    }
+  }
+});
+
+server.listen(port, host, () => {
+  console.log(`Creavix 3D is running at http://${host}:${port}`);
+  console.log("Product images are scanned from IMG; edit catalog.json to set product details.");
+});
