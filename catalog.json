@@ -1,5 +1,26 @@
 [
   {
+    "image": "Bronze Dandiya Dance Sculpture.png",
+    "name": "Dandiya Dance Sculpture",
+    "category": "Desk & more",
+    "price": 450,
+    "approxSizeInches": "4 x 3 x 3"
+  },
+    {
+    "image": "Ivory Durga Statue in Warm Home Altar.png",
+    "name": "Durga Maa",
+    "category": "Desk & more",
+    "price": 500,
+    "approxSizeInches": "4 x 3 x 3"
+  },
+   {
+    "image": "Chibi Durga with Lion in a Devotional Altar.png",
+    "name": "Durga with Lion",
+    "category": "Desk & more",
+    "price": 450,
+    "approxSizeInches": "4 x 3 x 3"
+  },
+  {
     "image": "Turquoise Hoodie Pen Holder on Desk.png",
     "name": "Hoodie Pen Holder",
     "category": "Desk & more",
