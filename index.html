@@ -1259,7 +1259,7 @@
           >
             <img
               id="hero-featured-image"
-              src="IMG/optimized/Triumphant%20Cloud%20Throne%20Figurine.png.jpg"
+              src="IMG/Triumphant%20Cloud%20Throne%20Figurine.png"
               alt="A cheerful 3D-printed figure seated on a sculpted cloud"
               fetchpriority="high"
               decoding="async"
@@ -1449,7 +1449,7 @@
           >
             <figure class="process-example">
               <img
-                src="IMG/optimized/Family Figurines by the River.png.jpg"
+                src="IMG/Family%20Figurines%20by%20the%20River.png"
                 alt="Personalized name detail printed onto a pencil"
                 loading="lazy"
                 decoding="async"
@@ -1458,7 +1458,7 @@
             </figure>
             <figure class="process-example">
               <img
-                src="IMG/optimized/Handcrafted Red Cow Figurine on a Wooden Table.png.jpg"
+                src="IMG/Handcrafted%20Red%20Cow%20Figurine%20on%20a%20Wooden%20Table.png"
                 alt="Turquoise hoodie-shaped 3D-printed pen holder"
                 loading="lazy"
                 decoding="async"
@@ -1467,7 +1467,7 @@
             </figure>
             <figure class="process-example">
               <img
-                src="IMG/optimized/Triumphant Cloud Throne Figurine.png.jpg"
+                src="IMG/Triumphant%20Cloud%20Throne%20Figurine.png"
                 alt="Custom 3D-printed pet keychains with names"
                 loading="lazy"
                 decoding="async"
@@ -1476,7 +1476,7 @@
             </figure>
             <figure class="process-example">
               <img
-                src="IMG/optimized/Pink%20Heart%20Keepsake%20in%20Hand.png.jpg"
+                src="IMG/Pink%20Heart%20Keepsake%20in%20Hand.png"
                 alt="Pink 3D-printed heart keepsake gift"
                 loading="lazy"
                 decoding="async"
@@ -1659,11 +1659,6 @@
       let products = Array.isArray(window.CREAVIX_PRODUCTS)
         ? window.CREAVIX_PRODUCTS
         : [];
-      products = products.map((product) => ({
-        ...product,
-        optimizedImage: `IMG/optimized/${encodeURIComponent(`${product.image}.jpg`)}`,
-      }));
-
       const grid = document.querySelector("#product-grid");
       const searchInput = document.querySelector("#product-search");
       const filters = document.querySelector(".filters");

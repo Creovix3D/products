@@ -1,5 +1,12 @@
 window.CREAVIX_PRODUCTS = [
   {
+    "image": "Chibi Fox Figurine in a Palm.png",
+    "name": "Chibi Fox Figurine Keychain",
+    "category": "Keychains",
+    "price": 80,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
     "image": "Bronze Dandiya Dance Sculpture.png",
     "name": "Dandiya Dance Sculpture",
     "category": "Desk & more",
@@ -168,9 +175,9 @@ window.CREAVIX_PRODUCTS = [
   },
   {
     "image": "ChatGPT Image Sep 28, 2026, 12_47_35 AM.png",
-    "name": "Creavix Logo Keychain",
+    "name": "Creovix Logo Keychain",
     "category": "Keychains",
-    "price": 399,
+    "price": 80,
     "approxSizeInches": "2.5 x 1 x 0.3"
   },
   {
