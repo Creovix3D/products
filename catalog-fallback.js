@@ -6,6 +6,13 @@ window.CREAVIX_PRODUCTS = [
     "price": 80,
     "approxSizeInches": "2.5 x 1.5 x 0.3"
   },
+   {
+    "image": "Adorable Tuxedo Cat Figurines in Hand.png",
+    "name": "Chibi Cat Figurine Keychain",
+    "category": "Keychains",
+    "price": 70,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
   {
     "image": "Bronze Dandiya Dance Sculpture.png",
     "name": "Dandiya Dance Sculpture",
@@ -22,7 +29,7 @@ window.CREAVIX_PRODUCTS = [
   },
    {
     "image": "Chibi Durga with Lion in a Devotional Altar.png",
-    "name": "Durga with Lion",
+    "name": "Durga Maa with Lion",
     "category": "Desk & more",
     "price": 450,
     "approxSizeInches": "4 x 3 x 3"
@@ -43,7 +50,7 @@ window.CREAVIX_PRODUCTS = [
   },
   {
     "image": "Simaba.png",
-    "name": "Simaba Figurine",
+    "name": "Simaba The Lion",
     "category": "Keychains",
     "price": 80,
     "approxSizeInches": "2.5 x 2 x 2"
@@ -189,7 +196,7 @@ window.CREAVIX_PRODUCTS = [
   },
   {
     "image": "Screenshot.png",
-    "name": "Sitting Simba",
+    "name": "Sitting Lion",
     "category": "Desk & more",
     "price": 150,
     "approxSizeInches": "3 x 3 x 2"
@@ -223,22 +230,8 @@ window.CREAVIX_PRODUCTS = [
     "approxSizeInches": "3 x 3 x 2"
   },
   {
-    "image": "ChatGPT Image Sep 28, 2026, 01_49_37 AM.png",
-    "name": "Cat Keepsake",
-    "category": "Desk & more",
-    "price": 70,
-    "approxSizeInches": "3 x 3 x 2"
-  },
-  {
     "image": "ChatGPT Image Sep 28, 2026, 01_38_53 AM.png",
     "name": "Snake Keepsake",
-    "category": "Desk & more",
-    "price": 80,
-    "approxSizeInches": "3 x 2 x 2"
-  },
-  {
-    "image": "ChatGPT Image Sep 28, 2026, 01_37_50 AM.png",
-    "name": "Owl",
     "category": "Desk & more",
     "price": 80,
     "approxSizeInches": "3 x 2 x 2"
@@ -275,7 +268,7 @@ window.CREAVIX_PRODUCTS = [
     "image": "Black-and-White Puppy Keychain Display.png",
     "name": "Puppy Pal Keychain",
     "category": "Keychains",
-    "price": 329,
+    "price": 80,
     "approxSizeInches": "2.5 x 1.5 x 0.3"
   },
   {
@@ -287,7 +280,7 @@ window.CREAVIX_PRODUCTS = [
   },
   {
     "image": "Pink Heart Keepsake in Hand.png",
-    "name": "Pink Heart Keepsake in Hand",
+    "name": "Pink Heart Gift",
     "category": "Desk & more",
     "price": 300,
     "approxSizeInches": "2 x 2 x 0.3"
@@ -400,12 +393,4 @@ window.CREAVIX_PRODUCTS = [
     "price": 20,
     "approxSizeInches": "4 x 3 x 2"
   },
-  {
-    "image": "WhatsApp Image 2026-10-08 at 16.32.56.jpeg",
-    "name": "Employee of the Month Trophy",
-    "category": "Desk & more",
-    "price": null,
-    "customizable": true,
-    "approxSizeInches": "8 x 4 x 3"
-  }
 ];
