@@ -1,5 +1,5 @@
-let products = Array.isArray(window.CREAVIX_PRODUCTS)
-  ? window.CREAVIX_PRODUCTS
+let products = Array.isArray(window.Creovix_PRODUCTS)
+  ? window.Creovix_PRODUCTS
   : [];
 const form = document.querySelector("#review-form");
 const productSelect = document.querySelector("#product-image");

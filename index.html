@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#f8f7f3" />
     <meta
       name="description"
-      content="Discover thoughtfully designed 3D-printed collectibles, desk companions, and personalized keepsakes by Creavix 3D."
+      content="Discover thoughtfully designed 3D-printed collectibles, desk companions, and personalized keepsakes by Creovix 3D."
     />
-    <title>Creavix 3D — Little things, made extraordinary</title>
+    <title>Creovix 3D — Little things, made extraordinary</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1250,8 +1250,8 @@
     </div>
     <header>
       <nav class="nav container" aria-label="Main navigation">
-        <a class="brand" href="#" aria-label="Creavix 3D home">
-          <img src="logo/Group%208.png" alt="Creavix 3D" />
+        <a class="brand" href="#" aria-label="Creovix 3D home">
+          <img src="logo/Group%208.png" alt="Creovix 3D" />
         </a>
         <div class="nav-links">
           <a href="#collection">Shop all</a>
@@ -1343,7 +1343,7 @@
         </div>
       </div>
 
-      <section class="benefits" aria-label="What makes Creavix special">
+      <section class="benefits" aria-label="What makes Creovix special">
         <div class="benefit-row container">
           <div class="benefit">
             <span class="benefit-icon">✳</span> Original little designs
@@ -1363,7 +1363,7 @@
       <section class="collection container" id="collection">
         <div class="section-top">
           <div>
-            <span class="eyebrow">The Creavix collection</span>
+            <span class="eyebrow">The Creovix collection</span>
             <h2>Little things to love.</h2>
             <p>One-of-a-kind finds, fresh off the printer.</p>
           </div>
@@ -1665,11 +1665,11 @@
         </div>
       </section>
       <div class="footer-row container">
-        <a class="brand" href="#" aria-label="Creavix 3D home">
-          <img src="logo/Group%208.png" alt="Creavix 3D" />
+        <a class="brand" href="#" aria-label="Creovix 3D home">
+          <img src="logo/Group%208.png" alt="Creovix 3D" />
         </a>
         <span>Small things. Big smiles. Made with care in India.</span>
-        <span>© <span id="year"></span> Creavix 3D</span>
+        <span>© <span id="year"></span> Creovix 3D</span>
       </div>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1694,8 +1694,8 @@
 
     <script src="catalog-fallback.js"></script>
     <script>
-      let products = Array.isArray(window.CREAVIX_PRODUCTS)
-        ? window.CREAVIX_PRODUCTS
+      let products = Array.isArray(window.Creovix_PRODUCTS)
+        ? window.Creovix_PRODUCTS
         : [];
       const grid = document.querySelector("#product-grid");
       const searchInput = document.querySelector("#product-search");
@@ -1714,7 +1714,7 @@
       const imagePreviewImage = document.querySelector("#image-preview-image");
       const processHeading = document.querySelector(".process-heading");
       const processSteps = document.querySelector(".process-steps");
-      const cartStorageKey = "creavix-cart";
+      const cartStorageKey = "Creovix-cart";
       const reviewsByProduct = new Map();
       let activeFilter = "All";
       let toastTimer;
@@ -2052,7 +2052,8 @@
         }
         reviewsByProduct.clear();
         reviews.forEach((review) => {
-          const productReviews = reviewsByProduct.get(review.productImage) || [];
+          const productReviews =
+            reviewsByProduct.get(review.productImage) || [];
           productReviews.push(review);
           reviewsByProduct.set(review.productImage, productReviews);
         });

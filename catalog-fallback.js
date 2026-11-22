@@ -434,7 +434,7 @@ const fallbackProducts = [
 ];
 
 if (typeof window !== "undefined") {
-  window.CREAVIX_PRODUCTS = fallbackProducts;
+  window.Creovix_PRODUCTS = fallbackProducts;
 }
 if (typeof module !== "undefined" && module.exports) {
   module.exports = fallbackProducts;

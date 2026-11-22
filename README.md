@@ -1,4 +1,4 @@
-# Creavix 3D product catalog
+# Creovix 3D product catalog
 
 Start the site by double-clicking `start-server.bat`, or run this command in
 the project folder:
@@ -49,3 +49,19 @@ are saved by the server in `reviews.json`, shown on the review page, and
 summarized beneath the matching product cards. Keep `node server.js` running to
 browse, submit, and save reviews; opening the HTML files directly does not
 enable review submissions.
+
+## Cloudflare Pages deployment
+
+This project includes a Cloudflare Pages Function at
+`functions/api/reviews.js`. When deployed with Cloudflare Pages:
+
+1. Connect the GitHub repository to a Cloudflare Pages project.
+2. Use the repository root as the build output directory, and leave the build
+   command empty.
+3. Create a Cloudflare KV namespace and bind it to the Pages project with the
+   variable name `REVIEWS`.
+4. Deploy the project and confirm `/api/reviews` returns `[]`.
+
+Reviews remain stored in Cloudflare KV rather than in `reviews.json`. The static
+catalog fallback remains available when the Node `/api/products` endpoint is
+not present on Cloudflare Pages.
