@@ -231,6 +231,6 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`Creavix 3D is running at http://${host}:${port}`);
+  console.log(`Creovix 3D is running at http://${host}:${port}`);
   console.log("Product images are scanned from IMG; edit catalog.json to set product details.");
 });
