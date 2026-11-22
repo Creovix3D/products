@@ -1,4 +1,4 @@
-window.CREAVIX_PRODUCTS = [
+const fallbackProducts = [
   {
     "image": "Realistic 3D-Printed Figurine Duo.png",
     "name": "Custom Figurine",
@@ -432,3 +432,10 @@ window.CREAVIX_PRODUCTS = [
     "approxSizeInches": "4 x 3 x 2"
   },
 ];
+
+if (typeof window !== "undefined") {
+  window.CREAVIX_PRODUCTS = fallbackProducts;
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = fallbackProducts;
+}

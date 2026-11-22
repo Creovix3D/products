@@ -106,6 +106,12 @@
       .nav-links a:hover {
         color: var(--blue);
       }
+      .review-nav-mobile {
+        display: none;
+        color: #5e605a;
+        font-size: 11px;
+        font-weight: 700;
+      }
       .bag-button {
         min-height: 40px;
         padding: 0 15px;
@@ -592,6 +598,33 @@
         font-size: 14px;
         font-weight: 700;
       }
+      .product-review-summary {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #f0efe9;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.5;
+      }
+      .product-review-summary a {
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .product-review-summary a:hover {
+        text-decoration: underline;
+      }
+      .product-review-rating {
+        color: #b27811;
+        font-weight: 700;
+      }
+      .product-review-quote {
+        margin-top: 5px;
+        overflow: hidden;
+        color: #565851;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
       .add-button {
         width: 29px;
         height: 29px;
@@ -1035,6 +1068,9 @@
           padding: 0 10px;
           font-size: 11px;
         }
+        .review-nav-mobile {
+          display: inline-flex;
+        }
         .hero {
           padding: 35px 0 48px;
         }
@@ -1222,7 +1258,9 @@
           <a href="#collection" data-nav-filter="Figurines">Figurines</a>
           <a href="#collection" data-nav-filter="Keychains">Keychains</a>
           <a href="#custom">Custom prints</a>
+          <a href="reviews.html">Reviews</a>
         </div>
+        <a class="review-nav-mobile" href="reviews.html">Reviews</a>
         <a
           class="bag-button"
           href="cart.html"
@@ -1677,6 +1715,7 @@
       const processHeading = document.querySelector(".process-heading");
       const processSteps = document.querySelector(".process-steps");
       const cartStorageKey = "creavix-cart";
+      const reviewsByProduct = new Map();
       let activeFilter = "All";
       let toastTimer;
       let featuredProductIndex = 0;
@@ -1760,6 +1799,30 @@
               "'": "&#39;",
             })[character],
         );
+
+      function productReviewSummary(product) {
+        const reviews = reviewsByProduct.get(product.image) || [];
+        const link = `reviews.html?product=${encodeURIComponent(product.image)}`;
+        if (reviews.length === 0) {
+          return `<div class="product-review-summary"><a href="${link}">Be the first to review ↗</a></div>`;
+        }
+        const average =
+          reviews.reduce((total, review) => total + review.rating, 0) /
+          reviews.length;
+        const roundedAverage = Math.round(average * 10) / 10;
+        const latestReview = reviews[0];
+        const ratingStars = `${"★".repeat(Math.round(average))}${"☆".repeat(
+          5 - Math.round(average),
+        )}`;
+        return `
+          <div class="product-review-summary">
+            <a href="${link}" aria-label="Read ${reviews.length} reviews for ${escapeHTML(product.name)}">
+              <span class="product-review-rating" aria-label="${roundedAverage} out of 5 stars">${ratingStars}</span>
+              ${roundedAverage} · ${reviews.length} ${reviews.length === 1 ? "review" : "reviews"}
+            </a>
+            <span class="product-review-quote">“${escapeHTML(latestReview.title || latestReview.comment)}” — ${escapeHTML(latestReview.name)}</span>
+          </div>`;
+      }
 
       function readCart() {
         try {
@@ -1852,6 +1915,7 @@
               <span class="product-price">${formatPrice(product.price)}</span>
               <button class="add-button" type="button" data-product-id="${escapeHTML(product.image)}" aria-label="Add ${escapeHTML(product.name)} to bag">+</button>
             </div>
+            ${productReviewSummary(product)}
           </div>
         </article>
       `,
@@ -1966,6 +2030,43 @@
       startFeaturedRotation();
       updateBagCount();
       renderProducts();
+
+      async function refreshReviews() {
+        const response = await fetch("/api/reviews", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Review load failed with HTTP ${response.status}.`);
+        }
+        const reviews = await response.json();
+        if (
+          !Array.isArray(reviews) ||
+          reviews.some(
+            (review) =>
+              !review ||
+              typeof review.productImage !== "string" ||
+              !Number.isInteger(review.rating) ||
+              review.rating < 1 ||
+              review.rating > 5,
+          )
+        ) {
+          throw new Error("The server returned invalid review data.");
+        }
+        reviewsByProduct.clear();
+        reviews.forEach((review) => {
+          const productReviews = reviewsByProduct.get(review.productImage) || [];
+          productReviews.push(review);
+          reviewsByProduct.set(review.productImage, productReviews);
+        });
+        reviewsByProduct.forEach((productReviews) =>
+          productReviews.sort((left, right) =>
+            right.createdAt.localeCompare(left.createdAt),
+          ),
+        );
+        renderProducts();
+      }
+
+      refreshReviews().catch((error) => {
+        console.error("Unable to load product reviews.", error);
+      });
 
       async function refreshProducts() {
         const response = await fetch("/api/products", { cache: "no-store" });

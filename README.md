@@ -18,9 +18,9 @@ images without an optimized copy still work, but use the original file and may
 load more slowly.
 
 Existing product details and new product overrides are stored in `catalog.json`.
-`catalog-fallback.js` contains the saved product list so existing cards still
-appear if you open `index.html` directly; the Node server is required to detect
-new photos in `IMG` automatically.
+`catalog-fallback.js` contains the saved product list for direct-file use and
+serves as the server's fallback when `catalog.json` is absent. The Node server
+is required to detect new photos in `IMG` automatically.
 For each image, set its exact filename, display name, category, and price:
 
 ```json
@@ -43,3 +43,9 @@ more` category, and a “Contact for price” label. Its metadata can be added t
 `approxSizeInches` is an optional `length × width × height` estimate in inches.
 Sizes currently based on product photos are rough visual estimates, not measured
 specifications; confirm exact dimensions before quoting a customer.
+
+Customers can open `reviews.html` to rate a product and leave a review. Reviews
+are saved by the server in `reviews.json`, shown on the review page, and
+summarized beneath the matching product cards. Keep `node server.js` running to
+browse, submit, and save reviews; opening the HTML files directly does not
+enable review submissions.

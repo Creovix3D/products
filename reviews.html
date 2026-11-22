@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f3" />
+    <meta
+      name="description"
+      content="Share your experience with Creavix 3D products and read helpful reviews from the community."
+    />
+    <title>Product reviews — Creavix 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #20211f;
+        --muted: #777971;
+        --paper: #f8f7f3;
+        --white: #fff;
+        --line: #e9e7df;
+        --blue: #3455d1;
+        --lime: #d9f375;
+        font-family: "DM Sans", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper); }
+      a { color: inherit; text-decoration: none; }
+      button, input, select, textarea { font: inherit; }
+      .container { width: min(1080px, calc(100% - 40px)); margin-inline: auto; }
+      header {
+        position: sticky;
+        z-index: 2;
+        top: 0;
+        border-bottom: 1px solid rgb(32 33 31 / 7%);
+        background: rgb(248 247 243 / 95%);
+        backdrop-filter: blur(14px);
+      }
+      .nav {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .brand img { display: block; width: 145px; max-width: 40vw; }
+      .nav-links { display: flex; gap: 25px; color: #5e605a; font-size: 13px; font-weight: 600; }
+      .nav-links a:hover, .back-link:hover { color: var(--blue); }
+      main { padding: 55px 0 80px; }
+      .eyebrow {
+        color: var(--blue);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+      }
+      h1, h2, h3 { font-family: Manrope, sans-serif; }
+      h1 { margin: 9px 0 10px; font-size: clamp(36px, 6vw, 56px); letter-spacing: -.055em; }
+      .intro { max-width: 650px; margin: 0 0 30px; color: var(--muted); line-height: 1.65; }
+      .review-stats {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 25px;
+        padding: 17px 20px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--white);
+      }
+      .stat-score { font: 800 29px Manrope, sans-serif; letter-spacing: -.06em; }
+      .stat-stars, .review-stars { color: #b27811; letter-spacing: .1em; }
+      .stat-caption { color: var(--muted); font-size: 12px; }
+      .review-layout { display: grid; grid-template-columns: minmax(290px, .82fr) minmax(0, 1.18fr); gap: 20px; align-items: start; }
+      .panel { padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); }
+      .panel h2 { margin: 0 0 7px; font-size: 20px; letter-spacing: -.04em; }
+      .panel-intro { margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+      .field { display: grid; gap: 7px; margin-bottom: 15px; }
+      .field label, fieldset legend { font-size: 12px; font-weight: 700; }
+      .field input, .field select, .field textarea, .review-filter select {
+        width: 100%;
+        min-height: 43px;
+        padding: 10px 12px;
+        border: 1px solid #deddd6;
+        border-radius: 10px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .field textarea { min-height: 112px; resize: vertical; line-height: 1.5; }
+      .field input:focus, .field select:focus, .field textarea:focus, .review-filter select:focus {
+        outline: 3px solid rgb(52 85 209 / 17%);
+        border-color: var(--blue);
+      }
+      .field small { color: var(--muted); font-size: 11px; }
+      fieldset { margin: 0 0 16px; padding: 0; border: 0; }
+      fieldset legend { margin-bottom: 8px; }
+      .rating-options { display: flex; gap: 5px; }
+      .rating-choice { position: relative; display: inline-flex; cursor: pointer; }
+      .rating-choice input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      }
+      .rating-choice span { padding: 3px; color: #c8c6bd; font-size: 29px; line-height: 1; }
+      .rating-choice.selected span, .rating-choice:focus-within span { color: #b27811; }
+      .rating-choice:focus-within span { outline: 2px solid var(--blue); border-radius: 5px; }
+      .submit-button {
+        min-height: 46px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 100px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .submit-button:hover { background: var(--blue); }
+      .submit-button:disabled { opacity: .6; cursor: wait; }
+      .form-status { min-height: 20px; margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+      .form-status.error { color: #a12626; }
+      .form-status.success { color: #28643a; }
+      .review-list-header { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+      .review-list-header h2 { margin-bottom: 0; }
+      .review-filter { width: min(220px, 55%); display: grid; gap: 6px; color: var(--muted); font-size: 11px; }
+      .review-filter select { min-height: 38px; padding-block: 7px; font-size: 12px; }
+      .review-list { display: grid; gap: 12px; }
+      .review-card { padding: 16px; border: 1px solid #efeee8; border-radius: 14px; }
+      .review-card-top { display: flex; justify-content: space-between; gap: 12px; }
+      .review-card h3 { margin: 0 0 5px; font-size: 15px; letter-spacing: -.025em; }
+      .review-product { margin: 0 0 11px; color: var(--blue); font-size: 11px; font-weight: 700; }
+      .review-byline, .review-date { color: var(--muted); font-size: 11px; }
+      .review-stars { margin-bottom: 8px; font-size: 13px; }
+      .review-comment { margin: 0; color: #4f514b; font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .review-detail { margin-top: 11px; color: #4f514b; font-size: 11px; line-height: 1.55; }
+      .review-detail strong { color: var(--ink); }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .empty-state { padding: 32px 18px; border: 1px dashed #d9d7cf; border-radius: 14px; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
+      .back-link { display: inline-block; margin-top: 22px; color: var(--muted); font-size: 12px; font-weight: 700; }
+      @media (max-width: 760px) {
+        main { padding-top: 38px; }
+        .review-layout { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 520px) {
+        .container { width: min(100% - 28px, 480px); }
+        .nav { min-height: 62px; }
+        .nav-links { gap: 13px; font-size: 11px; }
+        .panel { padding: 19px; }
+        .review-list-header { align-items: stretch; flex-direction: column; }
+        .review-filter { width: 100%; }
+        .review-date { text-align: right; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="Creavix 3D home">
+          <img src="logo/Group%208.png" alt="Creavix 3D" />
+        </a>
+        <div class="nav-links">
+          <a href="index.html#collection">Shop</a>
+          <a href="reviews.html" aria-current="page">Reviews</a>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <span class="eyebrow">Real stories, useful details</span>
+      <h1>A little love goes a long way.</h1>
+      <p class="intro">
+        Help someone find their next favourite. Tell us what you thought of the
+        design, print quality, or gifting experience — the little details help.
+      </p>
+      <section class="review-stats" aria-label="Community review summary">
+        <div class="stat-score" id="average-rating">—</div>
+        <div>
+          <div class="stat-stars" id="average-stars" aria-label="No ratings yet">☆☆☆☆☆</div>
+          <div class="stat-caption" id="review-count">Be the first to share a review</div>
+        </div>
+      </section>
+      <div class="review-layout">
+        <section class="panel" aria-labelledby="form-title">
+          <h2 id="form-title">Share your experience</h2>
+          <p class="panel-intro">
+            A thoughtful review helps other shoppers and helps us make every print better.
+          </p>
+          <form id="review-form">
+            <div class="field">
+              <label for="product-image">Which product did you try? <span aria-hidden="true">*</span></label>
+              <select id="product-image" name="productImage" required></select>
+            </div>
+            <fieldset>
+              <legend>Your rating <span aria-hidden="true">*</span></legend>
+              <div class="rating-options" role="radiogroup" aria-label="Choose a rating from 1 to 5 stars">
+                <label class="rating-choice"><input type="radio" name="rating" value="1" required /><span aria-hidden="true">★</span><span class="sr-only">1 star</span></label>
+                <label class="rating-choice"><input type="radio" name="rating" value="2" /><span aria-hidden="true">★</span><span class="sr-only">2 stars</span></label>
+                <label class="rating-choice"><input type="radio" name="rating" value="3" /><span aria-hidden="true">★</span><span class="sr-only">3 stars</span></label>
+                <label class="rating-choice"><input type="radio" name="rating" value="4" /><span aria-hidden="true">★</span><span class="sr-only">4 stars</span></label>
+                <label class="rating-choice"><input type="radio" name="rating" value="5" /><span aria-hidden="true">★</span><span class="sr-only">5 stars</span></label>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="reviewer-name">Your name <span aria-hidden="true">*</span></label>
+              <input id="reviewer-name" name="name" type="text" maxlength="50" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="review-title">A short headline <span class="stat-caption">(optional)</span></label>
+              <input id="review-title" name="title" type="text" maxlength="80" placeholder="What stood out?" />
+            </div>
+            <div class="field">
+              <label for="review-comment">Your review <span aria-hidden="true">*</span></label>
+              <textarea id="review-comment" name="comment" minlength="20" maxlength="1200" placeholder="How did it look and feel? Would you recommend it?" required></textarea>
+              <small>Share at least 20 characters. Please keep it kind and helpful.</small>
+            </div>
+            <div class="field">
+              <label for="review-pros">What did you love? <span class="stat-caption">(optional)</span></label>
+              <input id="review-pros" name="pros" type="text" maxlength="300" placeholder="Design, finish, gifting…" />
+            </div>
+            <div class="field">
+              <label for="review-cons">What could be better? <span class="stat-caption">(optional)</span></label>
+              <input id="review-cons" name="cons" type="text" maxlength="300" placeholder="Any helpful suggestion" />
+            </div>
+            <button class="submit-button" id="submit-review" type="submit">Post your review</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="panel" aria-labelledby="reviews-title">
+          <div class="review-list-header">
+            <h2 id="reviews-title">Reviews from the community</h2>
+            <label class="review-filter">
+              <span>Show reviews for</span>
+              <select id="review-filter" aria-label="Filter reviews by product"></select>
+            </label>
+          </div>
+          <div class="review-list" id="review-list" aria-live="polite">
+            <p class="empty-state">Loading reviews…</p>
+          </div>
+        </section>
+      </div>
+      <a class="back-link" href="index.html#collection">← Back to the collection</a>
+    </main>
+    <script src="catalog-fallback.js"></script>
+    <script src="reviews.js"></script>
+  </body>
+</html>
