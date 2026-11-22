@@ -1,5 +1,40 @@
 window.CREAVIX_PRODUCTS = [
   {
+    "image": "Realistic 3D-Printed Figurine Duo.png",
+    "name": "Custom Figurine",
+    "category": "Figurines",
+    "price": 600,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
+    "image": "Love and Heart Charm Tabletop Display.png",
+    "name": "Love and Heart Charm Tabletop Display",
+    "category": "Figurines",
+    "price": 550,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
+    "image": "squiral.png",
+    "name": "Flexy Squirrel",
+    "category": "Keychains",
+    "price": 80,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
+    "image": "Dolphin.png",
+    "name": "Flexy Dolphin",
+    "category": "Keychains",
+    "price": 70,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
+    "image": "Glossy Sisters Figurine Diorama.png",
+    "name": "Glossy Sisters Figurine Diorama",
+    "category": "Figurines",
+    "price": 650,
+    "approxSizeInches": "2.5 x 1.5 x 0.3"
+  },
+  {
     "image": "Chibi Fox Figurine in a Palm.png",
     "name": "Chibi Fox Figurine Keychain",
     "category": "Keychains",
