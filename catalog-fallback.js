@@ -3,6 +3,7 @@ window.CREAVIX_PRODUCTS = [
     "image": "Realistic 3D-Printed Figurine Duo.png",
     "name": "Custom Figurine",
     "category": "Figurines",
+    "customizable": true,
     "price": 600,
     "approxSizeInches": "2.5 x 1.5 x 0.3"
   },
@@ -10,6 +11,7 @@ window.CREAVIX_PRODUCTS = [
     "image": "Love and Heart Charm Tabletop Display.png",
     "name": "Love and Heart Charm Tabletop Display",
     "category": "Figurines",
+    "customizable": true,
     "price": 550,
     "approxSizeInches": "2.5 x 1.5 x 0.3"
   },
@@ -31,6 +33,7 @@ window.CREAVIX_PRODUCTS = [
     "image": "Glossy Sisters Figurine Diorama.png",
     "name": "Glossy Sisters Figurine Diorama",
     "category": "Figurines",
+    "customizable": true,
     "price": 650,
     "approxSizeInches": "2.5 x 1.5 x 0.3"
   },
