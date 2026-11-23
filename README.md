@@ -1,4 +1,4 @@
-# Creovix 3D product catalog web
+# Creovix 3D product catalog
 
 Start the site by double-clicking `start-server.bat`, or run this command in
 the project folder:
