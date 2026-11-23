@@ -55,7 +55,11 @@ enable review submissions.
 This project includes Cloudflare Pages Functions at
 `functions/api/products.js` and `functions/api/reviews.js`. The functions run
 on the same Pages deployment as the static site, so no separate Node server
-or separate domain deployment is required. When deployed with Cloudflare Pages:
+or separate domain deployment is required. Deploy it as a **Cloudflare Pages**
+project, not a Workers project. In particular, `npx wrangler deploy` is the
+Workers deploy command; it does not deploy this Pages Functions directory.
+
+When deploying from the Cloudflare dashboard:
 
 1. Connect the GitHub repository to a Cloudflare Pages project.
 2. Use the repository root as the build output directory, and leave the build
@@ -64,6 +68,13 @@ or separate domain deployment is required. When deployed with Cloudflare Pages:
    variable name `REVIEWS`.
 4. Deploy the project and confirm `/api/products` returns the catalog and
    `/api/reviews` returns `[]`.
+
+For a command-line deployment, use the Pages deploy command instead, replacing
+the placeholder with the Pages project name:
+
+```text
+npx wrangler pages deploy . --project-name <your-pages-project-name>
+```
 
 Reviews remain stored in Cloudflare KV rather than in `reviews.json`. If the
 KV binding is missing or misnamed, `/api/reviews` returns an HTTP 500. If the
